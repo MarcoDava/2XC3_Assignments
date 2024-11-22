@@ -1,0 +1,85 @@
+        -:    0:Source:convert_utils.c
+        -:    0:Graph:convert-convert_utils.gcno
+        -:    0:Data:convert-convert_utils.gcda
+        -:    0:Runs:31
+        -:    1:/*
+        -:    2:	This is the seccond .c file that provides all the necessary methods to convert.c file. This is to ensure there 
+        -:    3:	is a modular structure.
+        -:    4:
+        -:    5:
+        -:    6:
+        -:    7:Marco Dava, Mcmaster, 2024
+        -:    8:*/
+        -:    9:#include <stdio.h>
+        -:   10:#include <stdlib.h>
+        -:   11:#include <stdbool.h>
+        -:   12:#include <string.h>
+        -:   13:#include "convert_utils.h"
+        -:   14:
+        -:   15:#define min 2//defines constants
+        -:   16:#define max 36
+       12:   17:void usage_output(){
+       12:   18:	fprintf(stderr,"Usage: convert [-b BASE] [-r START FINISH]\n       1 < BASE < 37\n       START and FINISH are long integers\n");
+       12:   19:}//this is used for error messages.
+        3:   20:void help_output(int *help_mode){//passes int help mode for convert.c
+        3:   21:	*help_mode=1;
+        3:   22:	printf("%s","\nPROGRAM DESCRIPTION:\n\nThis program converts decimal numbers to a base representation of it\n\nOPTIONAL FLAGS:\n\n-b [base]: Sets the base to a number between and including 2 to 36\n-r [START] [END]: Turns range mode on and outputs a list of numbers from the START to the END\n--help: Outputs description of program and provides all the possible flags\nIf the range isnt set, it will allow you to input as many numbers as you like until the end of file.\nNo string values are accepted\n\n");
+        3:   23:}
+       31:   24:int parse_input(int argc, char *argv[], int *base, long *start, long *finish, int *range_mode,int *help_mode){
+       51:   25:	for(int i=1;i<argc;i++){
+       35:   26:		if(strcmp(argv[i],"--help")==0){
+        3:   27:			help_output(help_mode);//passes help_mode through so that in convert.c, it knows to return either 0 or 1 depending on whether it is an error or not. help will return stout so it will return 0
+        3:   28:			return -1;//this returns -1 so that the program does not continue. this does not mean --help flag is an error. 
+        -:   29:		}
+       32:   30:		if(strcmp(argv[i],"-b")==0){//this compares the first argument and checks if it is -b, if it is, it will return 0 and continue
+        -:   31:		
+       19:   32:			if(++i>=argc){//the reason why it is ++i instead of i++ is so that it iterates first before comparing. this checks if there is an argument after -b which is why it is checking if i is greater than argc
+        3:   33:				usage_output();//if there is no argument after -b, it will output an error message
+        3:   34:				return -1;
+        -:   35:			}
+       16:   36:			*base=atoi(argv[i]);//converts string into int and then sets base variable
+        -:   37:			
+       16:   38:			if(*base<min || *base>max){
+        3:   39:				usage_output();
+        3:   40:				return -1;
+        -:   41:			}
+        -:   42:		}
+       13:   43:		else if(strcmp(argv[i],"-r")==0){
+       10:   44:			if(i+2>=argc){
+        3:   45:				usage_output();
+        3:   46:				return -1;
+        -:   47:			}
+        7:   48:			i++;
+        7:   49:			*start = atol(argv[i++]);
+        7:   50:                	*finish = atol(argv[i]);
+        7:   51:			*range_mode=1;
+        -:   52:		}
+        -:   53:		else{
+        3:   54:			usage_output();
+        3:   55:			return -1;
+        -:   56:		}
+        -:   57:	}
+       16:   58:	return 0;
+        -:   59:}
+        -:   60:
+      169:   61:void convert_base(long num,int base){
+      169:   62:	if(num<0){
+       21:   63:		printf("-");
+       21:   64:		num=-num;
+        -:   65:	}
+      169:   66:	int digit=num%base;
+      169:   67: 	if(num>=base){
+       96:   68:                convert_base(num/base,base);
+        -:   69:        }
+      169:   70:	if(digit>=10){
+        3:   71:		printf("%c",(digit-10)+'A');
+        -:   72:	}
+        -:   73:	else{
+      166:   74:		printf("%c",'0'+digit);
+        -:   75:	}
+      169:   76:}
+        -:   77:
+        -:   78:
+        -:   79:
+        -:   80:
+        -:   81:

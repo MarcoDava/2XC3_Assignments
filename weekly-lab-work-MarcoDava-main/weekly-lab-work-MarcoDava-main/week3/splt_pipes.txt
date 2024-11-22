@@ -1,0 +1,6 @@
+1. cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/english/*.txt | ./splt | uniq
+2.  cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/english/*.txt | ./splt | uniq | wc -w
+3.  cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/english/*.txt | ./splt | uniq | tee lexicon.txt
+4.  cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/english/*.txt | ./splt | head -n 1
+5.  cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/english/*.txt | ./splt | tail -n 1
+6. cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/english/*.txt | ./splt | head -n 9998 | tail -n -1

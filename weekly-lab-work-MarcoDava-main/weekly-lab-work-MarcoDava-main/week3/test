@@ -1,0 +1,6 @@
+#!/bin/bash
+A=a
+B=1
+C="$A${B}C"
+D=$B*10
+echo "$A $B $C $D"

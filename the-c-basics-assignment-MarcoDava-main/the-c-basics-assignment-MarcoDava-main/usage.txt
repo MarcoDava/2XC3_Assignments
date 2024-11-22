@@ -1,0 +1,3 @@
+Usage: convert [-b BASE] [-r START FINISH]
+       1 < BASE < 37
+       START and FINISH are long integers

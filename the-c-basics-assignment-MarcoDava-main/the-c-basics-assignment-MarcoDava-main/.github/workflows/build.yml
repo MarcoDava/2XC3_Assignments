@@ -1,0 +1,41 @@
+name: build script for convert.c
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build convert.c
+        run: make
+
+      - name: upload convert
+        uses: actions/upload-artifact@v4
+        with:
+          name: convert
+          path: ./convert
+
+      - name: build coverage convert
+        run: gcc -o ctest --coverage convert.c convert_utils.c
+
+
+      - name: upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: C-Basics-Assignment-Test
+          path: ./ctest
+
+      - name: run tests
+        run: ./test_script > test_results.txt; gcov ctest-convert_utils.c
+
+      - name: upload results
+        if: ${{ always() }}
+
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test Results
+          path: ./test_results.txt

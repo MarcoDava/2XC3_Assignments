@@ -1,0 +1,7 @@
+#!/bin/bash
+read userInput
+X=$PWD
+cd $userInput
+rm *.tmp
+cd $X
+echo 'Task Complete'

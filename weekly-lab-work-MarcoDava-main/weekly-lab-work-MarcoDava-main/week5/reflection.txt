@@ -1,0 +1,7 @@
+My experiences with C so far are very mixed. Although it is satisfying to get programs to work, it took a lot of time to understand the syntax.
+
+the advantages of c is that it teaches us how to use pointers and to deal with low level access to memory
+
+The disadvantages of c is its very complex syntax, it took me a while just to understand scan and print
+
+I prefer to use java, simply because I have used it in the past and the syntax is easy to learn. the code is usually very easy to read

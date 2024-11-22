@@ -1,0 +1,2 @@
+the advantages are that you can link two functions with very little problems, however, this can also be bad because u can accidentally change another variable unintentionally. this can cause semantic errors or logic errors that are very hard to find.I think this side effect can be useful if used properly
+

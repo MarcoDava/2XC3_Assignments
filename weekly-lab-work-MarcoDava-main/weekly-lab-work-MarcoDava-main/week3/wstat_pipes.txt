@@ -1,0 +1,5 @@
+1. cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/spanish/los_favores_del_mundo.txt | wc | ./wstat
+2. cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/spanish/*.txt | wc | ./wstat
+3. cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/spanish/*.txt | head -n 100 | wc | ./wstat
+4.  cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/spanish/*.txt | tail -n 100 | wc | ./wstat
+5. cat /home/davam/Downloads/Labs/2XC3-data/gutenberg/spanish/*.txt | uniq | wc | ./wstat

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+while read line
+do
+        for word in $line
+        do
+		 echo $(echo $line | grep -P '\w')
+        done
+done

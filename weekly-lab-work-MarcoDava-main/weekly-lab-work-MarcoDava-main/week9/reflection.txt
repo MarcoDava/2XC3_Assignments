@@ -1,0 +1,7 @@
+1. generally some functions will be slower. however, it is not a good idea to not have any functions for the sake of faster time. it is important to have a modular structure even though it may sacrifice some time. Some functions will be unnecessary,like the checkfactor because it is not doing much. these functions are ok to remove.
+
+2. it depends on the function it self. if it is a complicated function it might be better to declare it normally as it is more readable and easier to understand. however, if you have a small function, it may be better to parametize.
+
+3. by improving the algorithm the response was a lot faster. there were a lot less comparisons on primes4.c then primes3,c which allowed for a fater program
+
+4. When a function is simple, such as a simple if statement, it can be ok to keep it in a main function, however, as much as possible, it might be a better idea to keep things modular to allow readability. 

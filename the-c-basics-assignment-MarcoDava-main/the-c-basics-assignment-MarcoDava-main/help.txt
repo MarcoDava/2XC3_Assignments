@@ -1,0 +1,13 @@
+
+PROGRAM DESCRIPTION:
+
+This program converts decimal numbers to a base representation of it
+
+OPTIONAL FLAGS:
+
+-b [base]: Sets the base to a number between and including 2 to 36
+-r [START] [END]: Turns range mode on and outputs a list of numbers from the START to the END
+--help: Outputs description of program and provides all the possible flags
+If the range isnt set, it will allow you to input as many numbers as you like until the end of file.
+No string values are accepted
+

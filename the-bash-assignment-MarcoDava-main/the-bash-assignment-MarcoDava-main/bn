@@ -1,0 +1,89 @@
+#!/bin/bash
+usage1(){   #There are 4 different usage functions all with different exit codes and error prompts. I will go more in depth when they are called
+	echo "bn <year> <assigned gender f|F|m|M|b|B>" >&2
+        exit 1
+}
+usage2(){
+        echo "Badly formatted assigned gender: $1
+bn <year> <assigned gender: f|F|m|M|b|B>" >&2                
+        exit 2
+}
+usage3(){
+	echo "Badly formatted name: $1" >&2
+        exit 3
+}
+usage4(){
+	echo "No data for $1" >&2
+        exit 4	
+}
+helpfunction(){  #This is the help function so that when the user calls the method, it will output this string
+	echo -e "help:\nbn is a program that finds the most popular names according to an assigned year and gender(s)\nThe format follows this example:\n./bn [year] [assigned gender f|F|m|M|b|B]\nthe assigned gender goes by the following, \nM/m:Male\nF/f:Female\nB/b:Both Male and Female"
+}
+rank(){  #rank is the method that extracts the line number of the name and outputs it as the rank because the names are already sorted
+
+	while read line #read line is how the program reads user input. Everytime the user presses enter, it will read the entire line
+	do
+		for word in $line # this is how the line is cut up to its individual words. It takes every single seperate word in the line as an "argument". These arguments are the names of the babies that are being searched. It will go through every word in the line until end of line and will go back to the while loop where it reads input again.
+		do	
+			if [[ ! $word =~ ^[a-zA-Z]+$ ]]  #In this if statement, it checks if the word the user inputted is alphanumerical. If it is not alphanumerical, it will execute the then statement below. if it is alphanumerical, it will continue
+			then
+				usage3 "$word" # If the word is not completely alphanumerical, it will execute this line. it calls usage3 function and passes the parameter $word. the function will use this $word to output what the user inputted back to them in an error message. It will then exit with a code of 3 after.
+			fi # If the word is completely alphanumerical, it will continue to here
+			if [[ ( $2 =~ [mMbB]) ]] # this checks if the gender the user inputted is either, m/M/b/B. this is important because this statement is only for males.
+			then
+				if [[ ( $(grep -c -i "\b$word\b" .malebabynames.txt) != 0) ]] #before rank function is called, all the babynames of the selected year are moved into a text file. This grep statement extracts the information from this text file that is specifically male names only. in this if statement, if the user input is found anywhere in the file. the -c flag counts how may occurances of the name is. if it is not 0, it will mean it exists in the file.
+				then
+					echo "$1: $word ranked $(grep -P -n -i "\b$word\b" .malebabynames.txt | grep -P -o "[0-9]+" | head -1) out of $(cat .malebabynames.txt | wc -l) male names."
+#In this echo statement, many things are happening. firstly, it takes in the parameter of what year the user inputted and prints it. after it outputs the word back to the user. Next it it finds the line number occurance of the name piped into only extracting the number from the printed statement, piped into a head where it only extracts the first number(There are two numbers in the grep statment)This entire statement takes the line number of the occurance of the name and cutting out all the other stuff that is usually outputted from grep. finally, the wc is used to find how many lines there are in the malebabynames.txt file. this line number represents how many male names there were. 
+				else
+					echo "$1: $word not found among male names" # If the userinput could not be found anywhere in the malesbabynames.txt, it will go to the else statement.
+				fi
+			fi
+			if [[ ( $2 =~ [fFbB]) ]] # Every thing from the female baby names is the same for the males execpt everything is put into a seperate text file and only activates if the gender parameter passed was f/F/b/B
+			then
+				if [[ ( $(grep -c -i "\b$word\b" .femalebabynames.txt) != 0) ]]
+                       		then
+					echo "$1: $word ranked $(grep -P -n -i "\b$word\b" .femalebabynames.txt | grep -P -o "[0-9]+" | head -1) out of $(cat .femalebabynames.txt | wc -l) female names."
+				else
+					echo "$1: $word not found among female names"
+				fi
+			fi
+			
+		done
+	done  #There is no way to exit while loop unless user presses ctrl Z or produces a non alphanumerical input.	 
+}
+
+
+if [ $# != 2 ] # If ./bn is called with any number besides 2 arguments, it will exeute the below then statement.
+then	
+	if [[ $1 =~ --help ]] # There are only two scenarios if the user did not input 2 arguments, either they do not understand the program or they want to call the helpfunction. the if statement only executes if the user input is --help
+	then
+        	helpfunction # Calls helpfunction and prints out the contents of the helpfunction
+	else
+		usage1 #calls usage1 function. will prompt user of the proper format of the expected input and exit with code 1
+	fi
+else
+	if [[ $1 =~ ^[0-9]{4}$ ]] && [[ $2 =~ ^[fFmMbB]{1}$ ]] # now that the arguments must be 2, it takes $1 and $2 to ensure the arguments are correct. the first condition is that the year must be 4 numbers. the second condition connected by && is that the gender must be the characters: f/F/m/M/b/B and only occurs once. if both these conditions are met, it executes the below statement 
+	then
+                if [[ $1 -gt 2022 ]] || [[ $1 -lt 1880 ]] # this checks if the user is in between 1880 and 2022 in cluding the bounderies
+                then
+                        usage4 "$1" # If the year is not within the bounds, it will produce the usage4 function. usage 4 takes the year as a parameter and outputs it in the error message. it exits with code 4
+                fi
+		if [[ $2 =~ [FfbB] ]] # will only execute if the user put gender as f/F/b/B. this is necessary because it is going into a female name text file
+		then
+			cat ../2XC3-data/us_baby_names/*$1* | grep -P ".+,F" > .femalebabynames.txt
+			#In this line, it finds the file with the correct year and greps for all the names with the F tag in them, as this resembles a female name. after the grep, all output is directed to the female names text file
+		fi
+		if [[ $2 =~ [mMbB] ]] # will only execute if the user put gender as m/M/b/B.this is so all male names go into male baby names
+                then
+                        cat ../2XC3-data/us_baby_names/*$1* | grep -P ".+,M" > .malebabynames.txt
+			#this grep function works the same as the female one, except it goes into the males names text file and only takes names with the M tag.
+                fi
+		rank "$1" "$2" #Calls the rank function on top of this file. passes the year parameter and gender parameter
+	else
+		usage2 "$2" #if the user didnt input the correct gender it will pass the gender parameter and sned an error to the user with the incorrect input. it will print the proper form after
+	fi
+fi
+
+
+

@@ -1,0 +1,102 @@
+1.
+a.Matching:
+REGEX
+^only matching
+
+Not Matching:
+hello
+bye
+no
+
+b.Matching:
+regex
+reegeex
+reeegeeex
+
+Not Matching:
+ajsdasdha
+sdhab
+sajdbd
+
+c.Matching:
+a
+b
+c
+
+Not Matching:
+r
+e
+g
+
+d.Matching:
+regregex
+regex
+ex
+
+Not Matching:
+asodifhasiu
+sgs
+ashdkf
+
+e.Matching:
+regex
+rex
+regx
+
+Not Matching:
+reggeex
+reegex
+reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeegex
+
+f.Matching:
+regexexreg
+REGexexREG
+
+Not Matching:
+REGexexreg
+regexexREG
+nomatCHING
+
+2. 
+a.
+aaba
+aabbaa
+aabababa
+
+b.
+abc
+
+c.
+abc
+abbbbbbbb
+azc
+abcbcbcbc
+asccbbbbcbcccc
+
+d.
+abc
+xyz
+
+e.
+Battle!
+swamping
+jump up.
+undulate?
+is.
+
+f.
+none of them were matching
+
+g.
+g.H
+i? J
+
+h.
+<an xml tag>
+<opentag>
+<closetag>
+</closetag>
+<with attribute=”77”>
+
+i.
+very very well-dressed person
